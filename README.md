@@ -2,18 +2,18 @@
 https://api.slack.com/apps
 から新規作成
 
-# Interactive Components
+## Interactive Components
 のところでレスポンスを返すURLを入力
 
-# Bots
+## Bots
 でAdd Bot
 名前と表示名入力
 
-# OAuth & Permissions
+## OAuth & Permissions
 Bot User OAuth Access Token
 を取得してpost.jsのtokenに入れる
 
-# Permission
+## Permission
 CONVERSATIONS   
 Access user’s public channels
 
@@ -47,7 +47,7 @@ bot
 
 でインストール
 
-# サーバ
+## サーバ
 nodejsをインストール
 
 slackモジュールが必要なので
@@ -63,6 +63,6 @@ unzip
 ./ngrok aututoken xxxxxxxxxxx
 で認証
 
-月曜日昼12時に定期実行
+## 月曜日昼12時に定期実行
 crontab -e
 0 12 * * 1 /usr/bin/node /home/user/bot/post.js
