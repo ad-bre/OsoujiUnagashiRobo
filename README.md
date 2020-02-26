@@ -6,64 +6,61 @@ https://api.slack.com/apps
 のところでレスポンスを返すURLを入力
 
 ## Bots
-でAdd Bot
+でAdd Bot  
 名前と表示名入力
 
 ## OAuth & Permissions
-Bot User OAuth Access Token
+Bot User OAuth Access Token  
 を取得してpost.jsのtokenに入れる
 
 ## Permission
 CONVERSATIONS   
-Access user’s public channels
+Access user’s public channels  
 
-channels:history
+channels:history  
 Access information about user’s public channels
 
-channels:read
+channels:read  
 Access content in user’s private channels
 
-groups:history
+groups:history  
 Access information about user’s private channels
 
-groups:read
+groups:read  
 Access content in user’s direct messages
 
-im:history
+im:history  
 Access information about user’s direct messages
 
-im:read
+im:read  
 Post to specific channels in Slack
 
-incoming-webhook
-EMOJI   
+incoming-webhook  
+EMOJI  
 Access the workspace’s emoji
 
-emoji:read
-INTERACTIVITY   
+emoji:read  
+INTERACTIVITY     
 Add a bot user with the username @osouji
-
-bot
 
 でインストール
 
 ## サーバ
 nodejsをインストール
 
-slackモジュールが必要なので
+slackモジュールが必要なので  
 npm install slack
 
-expressモジュールも必要なので
+expressモジュールも必要なので  
 npm install express
 
-ngrokのインストール
-公式サイトからzipをダウンロード
-unzip
-で
-./ngrok aututoken xxxxxxxxxxx
+ngrokのインストール  
+公式サイトからzipをダウンロード  
+unzip  
+で  
+./ngrok aututoken xxxxxxxxxxx  
 で認証
 
 ## 月曜日昼12時に定期実行
-crontab -e
-
+crontab -e  
 0 12 * * 1 /usr/bin/node /home/user/bot/post.js
