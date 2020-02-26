@@ -65,4 +65,5 @@ unzip
 
 ## 月曜日昼12時に定期実行
 crontab -e
+
 0 12 * * 1 /usr/bin/node /home/user/bot/post.js
