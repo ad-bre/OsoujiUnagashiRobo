@@ -1,71 +1,75 @@
 const Slack = require('slack');
 const slack = new Slack();
 
-stu = ["UserID"];
-stn = ["UserName"];
+const uid = ["UserID", "@1234ABCDE"];
+const name = ["UseName", "@inet-lab"];
 
-var json = require('roop.json');
-var dt = new Date();
-dow = (dt.getDay() + 6) % 7;
-dt.setDate(dt.getDate()-dow);
-month1 = dt.getMonth()+1;
-date1 = dt.getDate();
-dt.setDate(date1+6);
-month2 = dt.getMonth()+1;
-date2 = dt.getDate();
+ANUM = uid.length;
 
-txt1 = month1+"月"+date1+"日(月)〜"+month2+"月"+date2+"日(日)\n";
-
-num1 = json['num'] % 8;
-num2 = (json['num'] + 1) % 8;
-
-if (json['status'] == 0){
-    vacn = stn[num1];
-    vacu = stu[num1];
-    garn = stn[num2];
-    garu = stu[num2];
-} else {
-    vacn = stn[num2];
-    vacu = stu[num2];
-    garn = stn[num1];
-    garu = stu[num1];
+if (ANUM % 2 == 0){
+    for (i = 0; i < ANUM; i += 2){
+        uid.push(uid[i+1]);
+        uid.push(uid[i]);
+        name.push(name[i+1]);
+        name.push(name[i]);
+    }
+    ANUM = uid.length;
 }
 
-txt1 += "今週は<" + vacu + ">さんが掃除機係、<" + garu + ">さんがゴミ捨て係です！掃除が終わったら自分の名前のボタンを押してください！\n";
-txt1 += "In this week, <" + vacu + "> is a vacuum cleaner engagement, <" + garu + "> is a garbage dumper! When the cleaning is over, please push the button of your name!";
-txt2 = "<" + vacu + "> (vacuum cleaner) has not completed...  :x:\n";
-txt2 += "<" + garu + "> (garbage dumper) has not completed...  :x:";
+var json = require('ForJSONPath');
+
+var dt = new Date();
+var dow    = (dt.getDay() + 6) % 7;
+dt.setDate(dt.getDate()-dow);
+month1 = dt.getMonth()+1;
+date1  = dt.getDate();
+
+dt.setDate(date1+6);
+var month2 = dt.getMonth()+1;
+var date2  = dt.getDate();
+
+var txt1 = month1+"月"+date1+"日(月)〜"+month2+"月"+date2+"日(日)\n";
+var txt2 = "";
+
+var num1 = json['num'] % ANUM;
+var num2 = (json['num'] + 1) % ANUM;
+
+var vacuumID    = uid[num1];
+var vacuumName  = name[num1];
+var garbageID   = uid[num2];
+var garbageName = name[num2];
+
+txt1 += "今週は<" + vacuumID + ">さんが掃除機係、<" + garbageID + ">さんがゴミ捨て係です！掃除が終わったら自分の名前のボタンを押してください！\n";
+txt1 += "In this week, <" + vacuumID + "> is a vacuum cleaner engagement, <" + garbageID + "> is a garbage dumper! When the cleaning is over, please push the button of your name!";
+txt2 = "<" + vacuumID + "> (vacuum cleaner) has not completed...  :x:\n";
+txt2 += "<" + garbageID + "> (garbage dumper) has not completed...  :x:";
 
 var fs = require('fs');
 
-json['num'] = (json['num'] + 2) % 8;
-if (json['num'] == 0) {
-    json['status'] = (json['status'] + 1) % 2;
-}
-
-fs.writeFile('roop.json', JSON.stringify(json, null, '  '));
+json['num'] = (json['num'] + 2) % ANUM;
+fs.writeFile('ForJSONPath', JSON.stringify(json, null, '  '));
 
 slack.chat.postMessage({
-    token: 'BOT_TOKEN',
+    token: 'ACCESS_TOKEN',
     channel: '#general',
     text: txt1,
     attachments: [{
         callback_id: 'osouji_button',
         text: txt2,
-	color: "#bd0a24",
+        color: "#bd0a24",
         actions: [
-	    {
-		name: vacu,
-                text: vacn,
-		value: 0,
-		type: "button"
-	    },
-            {
-		name: garu,
-		text: garn,
-		value: 0,
-		type: "button"
-	    }
-	]
+        {
+            name: vacuumID,
+            text: vacuumName,
+            value: 0,
+            type: "button"
+        },
+        {
+            name: garbageID,
+            text: garbageName,
+            value: 0,
+            type: "button"
+        }
+    ]
     }]
 }).then(console.log).catch(console.error);
